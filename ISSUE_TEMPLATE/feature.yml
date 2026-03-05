@@ -1,25 +1,60 @@
 name: Feature Request
-description: Propose a new feature or enhancement
+description: Propose new functionality or an enhancement to existing behavior
 labels: ["enhancement"]
 body:
   - type: textarea
     id: problem
     attributes:
       label: Problem or motivation
-      description: What problem does this solve? Why is it needed?
+      description: What problem does this solve? What friction does it reduce? Why is the current state insufficient?
     validations:
       required: true
+
   - type: textarea
     id: solution
     attributes:
       label: Proposed solution
-      description: Describe the feature or approach you have in mind.
+      description: Describe the feature or approach. Be specific about behavior, not implementation — what should the user experience?
     validations:
       required: true
+
   - type: textarea
     id: alternatives
     attributes:
       label: Alternatives considered
-      description: Other approaches you thought about and why they're less ideal.
+      description: Other approaches you thought about and why they're less ideal. "None" is acceptable for straightforward requests.
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How do we know this is done? What can be tested or verified?
+      placeholder: |
+        - [ ] User can...
+        - [ ] Command outputs...
+        - [ ] Tests cover...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope estimate
+      description: Rough size to help with prioritization and appetite-setting.
+      options:
+        - "Small — a few hours of focused work"
+        - "Medium — a day or two"
+        - "Large — multi-day, needs shaping"
+        - "Unknown — needs research first"
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Related issues, prior art, inspiration links, mockups, etc.
     validations:
       required: false

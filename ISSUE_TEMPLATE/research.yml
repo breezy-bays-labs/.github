@@ -1,25 +1,74 @@
 name: Research
-description: Investigate a tool, technique, or approach
+description: Investigate a tool, technique, pattern, or approach before committing to build
 labels: ["research"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Research issues are the front door to the pipeline. Before building, we shape — and before shaping, we often need to understand the landscape.
+
   - type: textarea
     id: question
     attributes:
       label: Research question
-      description: What are we trying to learn or evaluate?
+      description: What are we trying to learn or evaluate? Frame as a specific question, not a vague topic.
+      placeholder: "Can mutation testing (Stryker) catch classes of bugs our current test suite misses?"
     validations:
       required: true
+
   - type: textarea
     id: context
     attributes:
-      label: Context
-      description: Why is this relevant now? What projects does it affect?
+      label: Context and motivation
+      description: Why is this relevant now? What project(s) does it affect? What decision does it inform?
     validations:
       required: true
+
   - type: textarea
     id: sources
     attributes:
       label: Starting sources
-      description: Links, repos, articles, or X posts to begin with.
+      description: Links, repos, articles, X posts, or prior art to begin the investigation.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Research scope
+      description: How deep should the investigation go?
+      options:
+        - "Quick scan — summarize what exists, recommend next step (1-2 hours)"
+        - "Evaluation — hands-on trial with a specific tool or approach (half day)"
+        - "Deep dive — comprehensive analysis with comparison and recommendation (1+ day)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Expected deliverable
+      description: What should the output of this research be? A decision? A Tankyu entry? A recommendation doc?
+      placeholder: |
+        - Tankyu research entry with key findings
+        - Recommendation on whether to adopt
+        - If yes, a follow-up feature issue with implementation approach
+    validations:
+      required: false
+
+  - type: dropdown
+    id: relevant-projects
+    attributes:
+      label: Relevant project(s)
+      description: Which project(s) would this research affect?
+      multiple: true
+      options:
+        - "kata"
+        - "tankyu"
+        - "renshin"
+        - "soji"
+        - "zeroclaw"
+        - "docs"
+        - "Org-wide"
     validations:
       required: false

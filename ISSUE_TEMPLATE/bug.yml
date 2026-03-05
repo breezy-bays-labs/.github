@@ -1,32 +1,87 @@
 name: Bug Report
-description: Report a bug or unexpected behavior
+description: Something is broken or behaving unexpectedly
 labels: ["bug"]
 body:
   - type: textarea
-    id: description
+    id: summary
     attributes:
-      label: What happened?
-      description: Describe the bug clearly and concisely.
+      label: Summary
+      description: One-liner describing the bug.
+      placeholder: "CLI crashes when running `command` with --flag"
     validations:
       required: true
+
   - type: textarea
-    id: expected
+    id: current-behavior
+    attributes:
+      label: Current behavior
+      description: What actually happens? Include error messages, stack traces, or unexpected output.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
     attributes:
       label: Expected behavior
-      description: What did you expect to happen?
+      description: What should happen instead?
     validations:
       required: true
+
   - type: textarea
     id: reproduce
     attributes:
       label: Steps to reproduce
-      description: Minimal steps to reproduce the issue.
+      description: Minimal steps to trigger the bug. Include commands, input data, and environment details.
+      placeholder: |
+        1. Run `command --flag`
+        2. Observe error
     validations:
       required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How much does this impact usage?
+      options:
+        - "S0: Blocker — can't use the tool at all"
+        - "S1: Major — core workflow broken, no workaround"
+        - "S2: Moderate — broken but workaround exists"
+        - "S3: Minor — cosmetic or edge case"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: source
+    attributes:
+      label: How was this found?
+      description: Helps track where bugs surface — dogfooding, testing, review, or user report.
+      options:
+        - "Dogfooding (found while using the tool)"
+        - "Testing (found by tests or CI)"
+        - "Code review"
+        - "Cool-down reflection"
+        - "User report"
+        - "Other"
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, runtime version, relevant config. Include tool version if known.
+      placeholder: |
+        - OS: macOS 15.x (Apple Silicon)
+        - Node: 20.x / Rust: 1.8x
+        - Tool version: x.y.z
+    validations:
+      required: false
+
   - type: textarea
     id: context
     attributes:
       label: Additional context
-      description: OS, Node/Rust version, error logs, screenshots, etc.
+      description: Logs, screenshots, related issues, or anything else relevant.
     validations:
       required: false
