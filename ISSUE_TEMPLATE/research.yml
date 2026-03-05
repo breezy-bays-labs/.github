@@ -1,0 +1,25 @@
+name: Research
+description: Investigate a tool, technique, or approach
+labels: ["research"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: What are we trying to learn or evaluate?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why is this relevant now? What projects does it affect?
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Starting sources
+      description: Links, repos, articles, or X posts to begin with.
+    validations:
+      required: false
