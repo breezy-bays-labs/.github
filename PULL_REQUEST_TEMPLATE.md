@@ -12,11 +12,11 @@
 
 ## Labels
 
-<!-- Apply at minimum: one type:* label, one priority:* label, and one scope label (product:*, domain:*, tool:*, or area:*) -->
+<!-- Apply at minimum: one type:* and one priority:* label. Add domain:* when the work touches app domain code. area:* labels may be auto-applied by the labeler. -->
 
-- [ ] `type:*` label applied (feature, bug, research, tech-debt, refactor, tooling)
+- [ ] `type:*` label applied (feature, bug, chore, research, design, docs, polish)
 - [ ] `priority:*` label applied (now, soon, later)
-- [ ] Scope label applied (product:*, domain:*, tool:*, or area:*)
+- [ ] Scope label applied if applicable (domain:* or area:*)
 
 ## Validation
 

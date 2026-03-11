@@ -4,29 +4,26 @@
 
 area:docs:
   - changed-files:
-    - any-glob-to-any-file:
-      - 'docs/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
-      - '*.md'
-      - '!CLAUDE.md'
-      - '!AGENTS.md'
-      - '!CHANGELOG.md'
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - 'README.md'
+          - 'CONTRIBUTING.md'
+          - '**/*.md'
 
 area:ci:
   - changed-files:
-    - any-glob-to-any-file:
-      - '.github/**'
+      - any-glob-to-any-file:
+          - '.github/**'
 
 area:deps:
   - changed-files:
-    - any-glob-to-any-file:
-      - 'package.json'
-      - 'package-lock.json'
-      - 'yarn.lock'
-      - 'pnpm-lock.yaml'
-      - 'Cargo.toml'
-      - 'Cargo.lock'
-      - 'rust-toolchain.toml'
-      - 'go.mod'
-      - 'go.sum'
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'package-lock.json'
+          - 'yarn.lock'
+          - 'pnpm-lock.yaml'
+          - 'Cargo.toml'
+          - 'Cargo.lock'
+          - 'rust-toolchain.toml'
+          - 'go.mod'
+          - 'go.sum'
