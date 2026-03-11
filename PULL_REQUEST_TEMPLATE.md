@@ -10,6 +10,14 @@
 
 <!-- Use closing keywords: Closes #, Fixes #, Part of # -->
 
+## Labels
+
+<!-- Apply at minimum: one type:* label, one priority:* label, and one scope label (product:*, domain:*, tool:*, or area:*) -->
+
+- [ ] `type:*` label applied (feature, bug, research, tech-debt, refactor, tooling)
+- [ ] `priority:*` label applied (now, soon, later)
+- [ ] Scope label applied (product:*, domain:*, tool:*, or area:*)
+
 ## Validation
 
 <!-- Commands run and results. Show, don't tell. -->
