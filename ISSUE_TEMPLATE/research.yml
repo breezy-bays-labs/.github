@@ -1,6 +1,6 @@
 name: Research
 description: Investigate a tool, technique, pattern, or approach before committing to build
-labels: ["research"]
+labels: ["type:research"]
 body:
   - type: markdown
     attributes:
