@@ -63,6 +63,7 @@ body:
       description: Which project(s) would this research affect?
       multiple: true
       options:
+        - "mokumo"
         - "kata"
         - "tankyu"
         - "renshin"
