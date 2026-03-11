@@ -1,0 +1,32 @@
+# Org-wide labeler.yml — auto-applies area:* labels to PRs based on file paths.
+# Per-repo labeler.yml files override this for repo-specific paths.
+# Requires the actions/labeler action to be configured in a workflow.
+
+area:docs:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'docs/**'
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - '*.md'
+      - '!CLAUDE.md'
+      - '!AGENTS.md'
+      - '!CHANGELOG.md'
+
+area:ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/**'
+
+area:deps:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'yarn.lock'
+      - 'pnpm-lock.yaml'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'go.mod'
+      - 'go.sum'
