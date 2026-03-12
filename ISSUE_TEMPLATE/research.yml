@@ -1,6 +1,6 @@
 name: Research
 description: Investigate a tool, technique, pattern, or approach before committing to build
-labels: ["research"]
+labels: ["type:research"]
 body:
   - type: markdown
     attributes:
@@ -63,6 +63,7 @@ body:
       description: Which project(s) would this research affect?
       multiple: true
       options:
+        - "mokumo"
         - "kata"
         - "tankyu"
         - "renshin"

@@ -10,6 +10,14 @@
 
 <!-- Use closing keywords: Closes #, Fixes #, Part of # -->
 
+## Labels
+
+<!-- Apply at minimum: one type:* and one priority:* label. Add domain:* when the work touches app domain code. area:* labels may be auto-applied by the labeler. -->
+
+- [ ] `type:*` label applied (feature, bug, chore, research, design, docs, polish)
+- [ ] `priority:*` label applied (now, soon, later)
+- [ ] Scope label applied if applicable (domain:* or area:*)
+
 ## Validation
 
 <!-- Commands run and results. Show, don't tell. -->
