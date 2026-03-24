@@ -1,0 +1,45 @@
+name: Task
+description: Discrete scoped work item — implementation, setup, wiring, or configuration
+labels: ["type:task"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What needs to be done? Be specific about the deliverable, not the approach.
+      placeholder: "Wire up WebSocket broadcast endpoint for real-time order updates"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How do we know this is done? Each criterion should be testable or verifiable.
+      placeholder: |
+        - [ ] Endpoint accepts connections at /ws/orders
+        - [ ] Broadcasts order status changes to all connected clients
+        - [ ] Tests cover happy path and disconnection handling
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope estimate
+      description: Rough size to help with prioritization.
+      options:
+        - "Small — a few hours of focused work"
+        - "Medium — a day or two"
+        - "Large — multi-day, needs shaping"
+        - "Unknown — needs research first"
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why this matters. Related issues, ADRs, pipeline notes, or parent epic.
+    validations:
+      required: false
