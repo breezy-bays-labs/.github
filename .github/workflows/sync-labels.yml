@@ -22,6 +22,17 @@ jobs:
           sparse-checkout: standards/labels.json
           sparse-checkout-cone-mode: false
 
+      - name: Extract flat labels array
+        run: |
+          python3 -c "
+          import json
+          with open('standards/labels.json') as f:
+              data = json.load(f)
+          labels = [{'name': l['name'], 'color': l['color'], 'description': l['description']} for l in data['labels']]
+          with open('/tmp/labels-sync.json', 'w') as f:
+              json.dump(labels, f, indent=2)
+          "
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -37,6 +48,6 @@ jobs:
           fi
           npx github-label-sync \
             --access-token "$GITHUB_TOKEN" \
-            --labels standards/labels.json \
+            --labels /tmp/labels-sync.json \
             $FLAGS \
             breezy-bays-labs/${{ matrix.repo }}
