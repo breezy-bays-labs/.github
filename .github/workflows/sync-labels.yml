@@ -1,0 +1,42 @@
+name: Sync Labels
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Preview changes without applying
+        type: boolean
+        default: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: [ops, crap4ts, docs, .github]
+    steps:
+      - name: Checkout ops for labels.json
+        uses: actions/checkout@v4
+        with:
+          repository: breezy-bays-labs/ops
+          token: ${{ secrets.LABEL_SYNC_PAT }}
+          sparse-checkout: standards/labels.json
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Sync labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.LABEL_SYNC_PAT }}
+        run: |
+          FLAGS="--allow-added-labels"
+          if [ "${{ inputs.dry-run }}" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
+          fi
+          npx github-label-sync \
+            --access-token "$GITHUB_TOKEN" \
+            --labels standards/labels.json \
+            $FLAGS \
+            breezy-bays-labs/${{ matrix.repo }}
