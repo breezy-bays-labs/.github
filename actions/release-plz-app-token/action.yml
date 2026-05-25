@@ -6,10 +6,17 @@ description: >-
   downstream pull_request workflows.
 
 inputs:
-  app-id:
+  client-id:
     description: >-
-      GitHub App ID for the org-wide release-plz App. Typically read
-      from an org-level secret (e.g., RELEASE_PLZ_APP_ID).
+      Identifier for the org-wide release-plz App. Accepts either the
+      App's Client ID (the canonical form per
+      actions/create-github-app-token v3.1.1+, e.g. 'Iv23li...') or
+      the App's numeric App ID — @octokit/auth-app's appId parameter
+      is polymorphic and resolves both. Typically read from an
+      org-level secret (the secret's name can stay
+      RELEASE_PLZ_APP_ID even when its value is the integer App ID;
+      the input's contract is "an identifier accepted by
+      @octokit/auth-app").
     required: true
   private-key:
     description: >-
@@ -52,7 +59,7 @@ runs:
       id: app-token
       uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
       with:
-        app-id: ${{ inputs.app-id }}
+        client-id: ${{ inputs.client-id }}
         private-key: ${{ inputs.private-key }}
         permission-contents: ${{ inputs.permission-contents }}
         permission-pull-requests: ${{ inputs.permission-pull-requests }}
