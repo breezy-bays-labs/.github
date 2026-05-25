@@ -1,0 +1,50 @@
+# Dependabot configuration for the org-wide `.github` repo.
+#
+# Keeps the SHA-pinned `uses:` references in `.github/workflows/*`
+# and `actions/*/action.yml` fresh. Each weekly run opens a PR per
+# outdated action, bumping the pinned SHA to the latest matching
+# tagged release.
+#
+# Coverage caveat: Dependabot's github-actions ecosystem tracks
+# tagged releases and default-branch HEADs only — it does NOT track
+# HEAD advances on non-default branches. None of the actions in this
+# repo currently pin to a non-default branch, but consumer repos
+# (and any future workflow here) should consult the org's
+# supply-chain hygiene convention before using branch-pinned actions.
+#
+# zizmor (the workflow auditor in `.github/workflows/ci.yml`) is
+# invoked via `pipx run 'zizmor>=1.5,<2'` rather than through any
+# Dependabot ecosystem — bumping its version spec is a manual edit
+# of the workflow when zizmor's release notes warrant.
+
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    # Cooldown delays a Dependabot bump for N days after the upstream
+    # release lands, giving the community time to surface a bad
+    # release before our automation pulls it.
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci
+      include: scope
+    labels:
+      - type:chore
+      - priority:soon
+    groups:
+      # Group minor + patch bumps into one weekly PR per ecosystem
+      # so reviewers see the full supply-chain delta at once.
+      # Major-version bumps land as separate PRs (breaking-change
+      # review surface).
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch

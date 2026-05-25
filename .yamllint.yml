@@ -1,0 +1,28 @@
+# yamllint config for the org-wide `.github` repo.
+#
+# The default yamllint ruleset is calibrated for plain YAML
+# documents (Kubernetes manifests, Ansible playbooks) and surfaces
+# false positives on GitHub Actions workflow files. This config
+# loosens four rules so the signal stays meaningful for actual
+# breakage:
+#
+#   - `truthy`: the GitHub Actions `on:` keyword parses as a YAML
+#     truthy literal; check-keys=false skips the key-name check
+#     while still flagging stringly truthies elsewhere.
+#   - `document-start`: GitHub Actions don't need the `---` marker.
+#   - `line-length`: 80 columns is too tight for `uses:` references
+#     with SHA pins + trailing tag comments AND for issue-template
+#     markdown prose; 160 is the practical ceiling.
+#   - `comments`: inline comments after code only need a single
+#     leading space, not the default two.
+
+extends: default
+
+rules:
+  truthy:
+    check-keys: false
+  document-start: disable
+  line-length:
+    max: 160
+  comments:
+    min-spaces-from-content: 1

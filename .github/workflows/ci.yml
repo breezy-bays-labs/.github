@@ -1,0 +1,62 @@
+name: ci
+
+# Baseline CI for the org-wide `.github` repo. Lints the repo's
+# workflow definitions, composite actions, and YAML — both
+# self-applied (catching breakage in this repo's own workflows) and
+# protecting the canonical artifacts that downstream repos consume
+# (the `release-plz-app-token` composite action and the
+# `release-plz-allowlist.toml`).
+#
+# All `uses:` references SHA-pinned per the org's supply-chain
+# hygiene convention. Tracked through Dependabot's `github-actions`
+# ecosystem.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  zizmor:
+    name: zizmor (workflow security audit)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Run zizmor on .github/ and actions/
+        # Pinned to the 1.x major so a zizmor release tightening
+        # rules doesn't surprise the build. Bump the version spec
+        # manually when zizmor's release notes warrant the upgrade
+        # (this version is not Dependabot-tracked — pipx pulls the
+        # latest matching semver constraint at run time).
+        run: pipx run 'zizmor>=1.5,<2' .github/ actions/
+
+  yamllint:
+    name: yamllint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Run yamllint
+        run: pipx run yamllint --strict .
+
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: raven-actions/actionlint@205b530c5d9fa8f44ae9ed59f341a0db994aa6f8 # v2

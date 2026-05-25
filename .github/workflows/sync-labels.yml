@@ -7,6 +7,9 @@ on:
         type: boolean
         default: true
 
+permissions:
+  contents: read
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -15,12 +18,13 @@ jobs:
         repo: [ops, crap4ts, docs, .github]
     steps:
       - name: Checkout ops for labels.json
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: breezy-bays-labs/ops
           token: ${{ secrets.LABEL_SYNC_PAT }}
           sparse-checkout: standards/labels.json
           sparse-checkout-cone-mode: false
+          persist-credentials: false
 
       - name: Extract flat labels array
         run: |
@@ -34,20 +38,22 @@ jobs:
           "
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
 
       - name: Sync labels
         env:
           GITHUB_TOKEN: ${{ secrets.LABEL_SYNC_PAT }}
+          DRY_RUN: ${{ inputs.dry-run }}
+          REPO: ${{ matrix.repo }}
         run: |
-          FLAGS="--allow-added-labels"
-          if [ "${{ inputs.dry-run }}" = "true" ]; then
-            FLAGS="$FLAGS --dry-run"
+          FLAGS=(--allow-added-labels)
+          if [ "$DRY_RUN" = "true" ]; then
+            FLAGS+=(--dry-run)
           fi
           npx github-label-sync \
             --access-token "$GITHUB_TOKEN" \
             --labels /tmp/labels-sync.json \
-            $FLAGS \
-            breezy-bays-labs/${{ matrix.repo }}
+            "${FLAGS[@]}" \
+            "breezy-bays-labs/$REPO"
