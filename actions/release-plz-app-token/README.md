@@ -27,10 +27,14 @@ workflow.
 
 | Name | Required | Description |
 |---|---|---|
-| `app-id` | yes | App ID for the org-wide release-plz App. Read from an org-level secret (e.g., `RELEASE_PLZ_APP_ID`). |
+| `client-id` | yes | Identifier for the org-wide release-plz App. Accepts either the App's **Client ID** (canonical form, e.g. `Iv23li...`) OR the App's **numeric App ID** — `@octokit/auth-app`'s `appId` parameter resolves both. Read from an org-level secret (e.g., `RELEASE_PLZ_APP_ID`); see *Secret name vs. input name* below for why the secret name need not change when its value is the integer form. |
 | `private-key` | yes | App private key (PEM). Read from an org-level secret (e.g., `RELEASE_PLZ_APP_PRIVATE_KEY`). |
 | `permission-contents` | yes | Token scope for the `contents` permission. Declare `read` or `write` explicitly; least-privilege is the safe default. |
 | `permission-pull-requests` | no | Token scope for the `pull-requests` permission. Omit to inherit the App's installed permission, or set `read` / `write` to narrow. |
+
+### Secret name vs. input name
+
+The composite's `client-id` input is named after the canonical form `actions/create-github-app-token` v3.1.1+ prefers. The org-level secret holding the value, however, can legitimately be named anything — e.g. `RELEASE_PLZ_APP_ID` (with the integer form as its value) works exactly as `RELEASE_PLZ_APP_CLIENT_ID` (with the string form) would. The input cares about what the value resolves to, not what the secret is called. Renaming the secret is a no-op operationally and not required by this composite.
 
 ## Outputs
 
@@ -57,7 +61,7 @@ jobs:
         id: app-token
         uses: breezy-bays-labs/.github/actions/release-plz-app-token@<TAG_SHA> # release-plz-app-token-vX.Y.Z
         with:
-          app-id: ${{ secrets.RELEASE_PLZ_APP_ID }}
+          client-id: ${{ secrets.RELEASE_PLZ_APP_ID }}
           private-key: ${{ secrets.RELEASE_PLZ_APP_PRIVATE_KEY }}
           permission-contents: write
           permission-pull-requests: write
