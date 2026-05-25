@@ -1,0 +1,85 @@
+name: release-plz-app-token
+description: >-
+  Mint a short-lived GitHub App installation token for release-plz and
+  configure git + gh CLI to act under the App's bot identity. Used by
+  any consumer repo whose release-plz workflow needs PRs that trigger
+  downstream pull_request workflows.
+
+inputs:
+  app-id:
+    description: >-
+      GitHub App ID for the org-wide release-plz App. Typically read
+      from an org-level secret (e.g., RELEASE_PLZ_APP_ID).
+    required: true
+  private-key:
+    description: >-
+      App private key (PEM) for the org-wide release-plz App.
+      Typically read from an org-level secret
+      (e.g., RELEASE_PLZ_APP_PRIVATE_KEY).
+    required: true
+  permission-contents:
+    description: >-
+      Token scope for the contents permission. Required — callers must
+      declare 'read' or 'write' explicitly so the minted token is
+      least-privilege for the specific job.
+    required: true
+  permission-pull-requests:
+    description: >-
+      Token scope for the pull-requests permission. Optional — omit to
+      inherit the App's installed permission, or set 'read' / 'write'
+      to narrow.
+    required: false
+
+outputs:
+  token:
+    description: >-
+      The minted installation token. Pass to downstream steps via
+      `env: GITHUB_TOKEN` / `env: GH_TOKEN`.
+    value: ${{ steps.app-token.outputs.token }}
+  app-slug:
+    description: >-
+      The App's globally-assigned slug (e.g., 'release-plz' or, if
+      that name was taken, 'release-plz-1234'). Consumers MUST
+      reference this output dynamically rather than hardcoding the
+      slug — App names are globally unique and GitHub may have
+      appended a disambiguator.
+    value: ${{ steps.app-token.outputs.app-slug }}
+
+runs:
+  using: composite
+  steps:
+    - name: Mint installation token
+      id: app-token
+      uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.private-key }}
+        permission-contents: ${{ inputs.permission-contents }}
+        permission-pull-requests: ${{ inputs.permission-pull-requests }}
+
+    - name: Resolve App user-id for noreply email
+      id: get-user-id
+      shell: bash
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+      run: |
+        user_id=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+        echo "user-id=${user_id}" >> "$GITHUB_OUTPUT"
+
+    - name: Configure git identity and credential helper
+      shell: bash
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        USER_ID: ${{ steps.get-user-id.outputs.user-id }}
+      run: |
+        # The user.name / user.email pair attributes commits to the
+        # App's bot account in the GitHub UI. `gh auth setup-git`
+        # configures the credential helper so subsequent `git push`
+        # calls authenticate with the minted App token. Both pieces
+        # are needed — the credential helper alone doesn't set the
+        # commit author identity.
+        git config --global user.name "${APP_SLUG}[bot]"
+        git config --global user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+        gh auth setup-git

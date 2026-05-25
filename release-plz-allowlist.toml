@@ -1,0 +1,17 @@
+# Canonical allowlist of repos authorized to consume the
+# release-plz GitHub App's installation token and the org-level
+# RELEASE_PLZ_APP_ID / RELEASE_PLZ_APP_PRIVATE_KEY secrets.
+#
+# Consumer repos may run a lightweight CI lint that asserts their
+# own name appears in this list. See
+# actions/release-plz-app-token/README.md for the consumer contract.
+#
+# To onboard a new repo:
+#   1. Install the org's release-plz App on the repo via the GitHub
+#      org App settings UI.
+#   2. Add the org-level secrets to the repo's allowlist in the
+#      org's Actions-secrets settings.
+#   3. Land a PR adding the repo's bare name (no `org/` prefix) to
+#      the `repos` array below.
+
+repos = ["crap-rs"]
