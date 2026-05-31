@@ -8,7 +8,7 @@ Developer tooling for agentic software development — where AI agents are teamm
 
 | Project | Description |
 |---------|-------------|
-| [crap-rs](https://github.com/breezy-bays-labs/crap-rs) | CRAP-score analyzer for Rust — surfaces complex, under-tested functions |
+| [crap-rs](https://github.com/breezy-bays-labs/crap-rs) | Rust-built CRAP-score analyzer — surfaces complex, under-tested functions; currently supports Rust and TypeScript |
 | [dry-rs](https://github.com/breezy-bays-labs/dry-rs) | Structural duplication detector for Rust |
 | [scrap-rs](https://github.com/breezy-bays-labs/scrap-rs) | Static test-smell detector for Rust |
 
