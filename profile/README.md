@@ -16,7 +16,7 @@ Developer tooling for agentic software development — where AI agents are teamm
 
 | Project | Description |
 |---------|-------------|
-| [cute-dbt](https://github.com/breezy-bays-labs/cute-dbt) | Unit-test explorer for dbt — turns `manifest.json` into a self-contained HTML report for reviewing dbt unit tests |
+| [cute-dbt](https://github.com/breezy-bays-labs/cute-dbt) | Unit-test and topology explorer for dbt — CTE and model DAGs in the terminal during development, plus self-contained HTML unit-test reports |
 
 ### Pet project
 
